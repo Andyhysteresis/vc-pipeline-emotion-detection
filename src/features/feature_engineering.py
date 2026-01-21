@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import yaml
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 import logging
 
 # configure logging
@@ -61,7 +61,7 @@ def Vectorization(train_data: pd.DataFrame, test_data:pd.DataFrame, max_features
     
     try:
         # Apply TFIDF vectorizer
-        vectorizer = CountVectorizer(max_features = max_features)
+        vectorizer = TfidfVectorizer(max_features = max_features)
         logger.debug('created Vectorizer object')
 
         X_train = train_data['text'].values
@@ -104,8 +104,8 @@ def Vectorization(train_data: pd.DataFrame, test_data:pd.DataFrame, max_features
 def save_data(data_path, train_df, test_df):
     try:
         os.makedirs(data_path, exist_ok=True)
-        train_df.to_csv(os.path.join(data_path, 'train_bow.csv'))
-        test_df.to_csv(os.path.join(data_path, 'test_bow.csv'))
+        train_df.to_csv(os.path.join(data_path, 'train_tfidf.csv'))
+        test_df.to_csv(os.path.join(data_path, 'test_tfidf.csv'))
     except Exception as e:
         logger.error('Some unexpected error occurred during saving the file: %s', e)
         raise
